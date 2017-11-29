@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <button @click="add(2)">增加</button>
+   <!-- 在实际开发中经常需要把某个按钮封装成组件，然后反复使用，给我们自定义组件添加事件时。
+    就需要用到.native修饰器了。用.native修饰器来调用构造器里的add方法-->
+    <btn @click.native="add(2)"></btn>
+</div>
+<button onclick="app.add(2)">外部ADD</button>
+<script type="text/javascript">
+    var btn={
+        template:`<button>组件ADD</button>`
+    }
+    var app=new Vue({
+        el:'#app',
+        data:{
+            message:0
+        },
+        methods:{
+            add:function (num) {
+                this.message+=num;
+            }
+        },
+        components:{
+            'btn':btn
+        }
+    });
+</script>
+</body>
+</html>

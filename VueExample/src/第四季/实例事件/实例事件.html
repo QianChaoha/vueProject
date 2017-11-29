@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    {{score}}<br/>
+    <button v-on:click="addScore">加分</button>
+    <button onclick="reduceScore()">减分</button><br/>
+    <button onclick="reduceScoreOnce()">只减分一次</button><br/>
+    <button onclick="off()">关闭事件</button><br/>
+</div>
+<script type="text/javascript">
+    var app=new Vue({
+        el:'#app',
+        data:{
+            score:0,
+        },
+        methods:{
+            addScore:function () {
+                this.score++;
+            },
+        }
+    });
+    //======================================================================================
+    //不影响app已经定义好的结构,在外部给app增加一个reduceScore方法
+    app.$on('reduceScore',function(){
+        this.score--;
+    });
+
+    //外部调用内部事件
+    function reduceScore(){
+        app.$emit('reduceScore');
+    }
+
+
+    //======================================================================================
+    app.$once('reduceScoreOnce',function(){
+        console.log('只执行一次的方法');
+        this.score--;
+
+    });
+    function reduceScoreOnce(){
+        app.$emit('reduceScoreOnce');
+    }
+    //======================================================================================
+    //关闭减分事件
+    function off(){
+        app.$off('reduceScore');
+    }
+</script>
+</body>
+</html>

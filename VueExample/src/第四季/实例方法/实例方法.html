@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+</div>
+<p>
+    <button onclick="destroy()">卸载</button>
+    <button onclick="update()">更新</button>
+</p>
+<script type="text/javascript">
+    var authorExtend = Vue.extend({
+        template: `<p>jsqian</p>`,
+        mounted: function () {
+            console.log('mounted');
+        },
+        destroyed:function () {
+            console.log('destoryed');
+        },
+        updated:function () {
+            console.log('updated');
+        }
+    });
+    function update() {
+        vm.$forceUpdate()
+    }
+    function destroy() {
+        vm.$destroy();
+    }
+    //通过id绑定
+    var vm= new authorExtend();
+    vm.$mount('#app');
+</script>
+</body>
+</html>

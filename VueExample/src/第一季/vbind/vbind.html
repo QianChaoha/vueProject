@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <img v-bind:src='imgSrc' width="100px" height="100px"/>
+    <!--简单写法,用:代替v-bind-->
+    <p><a :href="url" target="_blank">百度</a></p>
+    <div :class="classNameA">绑定class</div>
+    <div :class="classNameB">绑定class</div>
+    <!--在isOK为true时显示样式，在isOk为false时不显示样式-->
+    <div :class="{classB:isOk}">绑定class</div>
+    <label><input type="checkbox"  v-model="isOk"/>{{isOk}}</label>
+    <div :class="[classNameA,classNameB]">绑定class数组</div>
+    <div :class="isOk?classNameA:classNameB">三元运算</div>
+    <div :style="{color:red,fontSize:font}">绑定style</div>
+    <div :style="styleObject">绑定对象</div>
+</div>
+<style>
+    .classA{
+        background-color: red;
+    }
+    .classB{
+        color: blue;
+    }
+</style>
+<script type="text/javascript">
+    var app=new Vue({
+        el:'#app',
+        data:{
+            imgSrc:"./1.jpg",
+            url:'http://www.baidu.com',
+            classNameA:'classA',
+            classNameB:'classB',
+            isOk:true,
+            red:'red',
+            font:'font',
+            styleObject:{
+//          font-size vue不支持,vue要求驼峰式写法
+                fontSize:'24px',
+                color:'green'
+            }
+        },
+
+    });
+</script>
+</body>
+</html>

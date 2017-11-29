@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/public.css" />
+    <script src="js/vue2.js"></script>
+    <script src="js/vue-resource.js"></script>
+    <style>
+        #grid-template,
+        #dialog-template {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="form-group">
+            <label>查找</label>
+            <input type="text" class="search-input" v-model="searchQuery" />
+        </div>
+    </div>
+    <simple-grid :data-list="people" :columns="columns" :search-key="searchQuery">
+    </simple-grid>
+
+</div>
+<template id="grid-template">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th v-for="col in columns" v-html="col.name">
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="entry in filteredData " v-show="tf?true:entry['selected']">
+                <td v-for="col in columns">
+                    <select v-if="col.isSex" v-model="entry[col.name]">
+                        <option v-for="opt in col.option" :value="opt" :selected="opt==entry[col.name]?true:false" v-html="opt"></option>
+                    </select>
+                    <input v-else-if="col.isSelected" type="checkbox" :checked="entry[col.name]" v-model="entry[col.name]">
+                    <span v-else v-html="entry[col.name]"></span>
+                </td>
+                <td class="text-center">
+                    <button class="btn-danger" @click="deleteItem(entry)">删除</button>
+                    <button class="btn-primary" @click="openEditItemDialog(entry.name)">修改</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="container">
+            <button class="btn" @click="openNewItemDialog('增加')">增加</button>
+            <button class="btn" @click="onlyShow()">仅显示选中</button>
+        </div>
+        <modal-dialog :mode="mode" :title="title" :item="item" :fields="columns" ref="dialog">
+        </modal-dialog>
+    </div>
+</template>
+<template id="dialog-template">
+    <div>
+        <div class="dialogs">
+            <div class="dialog" :class="{ 'dialog-active': show }">
+                <div class="dialog-content">
+                    <header class="dialog-header">
+                        <h1 class="dialog-title" v-html="title"></h1>
+                    </header>
+                    <div class="dialog-body">
+                        <div v-for="field in fields" class="form-group">
+                            <label v-html="field.name"></label>
+                            <select v-if="field.isSex" v-model="item[field.name]">
+                                <option v-for="opt in field.option" :value="opt" :selected="opt==item[field.name]?true:false">{{ opt }}</option>
+                            </select>
+                            <input v-else-if="field.isSelected" type="checkbox" :checked="item[field.name]" v-model="item[field.name]">
+                            <input v-else type="text" v-model="item[field.name]" :disabled="mode===2&&field.isKey === true">
+                        </div>
+                    </div>
+                    <footer class="dialog-footer">
+                        <div class="form-group">
+                            <label></label>
+                            <button class="btn-save" @click="save">Save</button>
+                            <button class="btn-close" @click="close">Close</button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <div class="dialog-overlay"></div>
+        </div>
+    </div>
+</template>
+<script>
+    Vue.component('simple-grid', {
+        template: '#grid-template',
+        props: ['dataList','columns','searchKey'],//设置属性
+        data: function() {
+            return {
+                mode: 0,
+                title: '',
+                item: {},
+                tf:true
+            }
+        },
+        methods: {
+            deleteItem: function (entry) {//删除
+                var data = this.dataList
+                data.forEach(function (item, i) {
+                    if (item === entry) {
+                        data.splice(i, 1)
+                        return
+                    }
+                })
+            },
+            openNewItemDialog: function (title) {//打开增加对话框
+                this.title = title;// 对话框的标题
+                this.mode = 1;// mode = 1表示新建模式
+                this.item = {};// 初始化this.item
+                this.$refs.dialog.showDialog(true);// 传入true表示显示对话框
+            },
+            openEditItemDialog: function(key) {
+                var currentItem = this.findItemByKey(key);
+                // 对话框的标题
+                this.title = 'Edit Item - ' + key
+                // mode = 2表示修改模式
+                this.mode = 2
+                // 将选中的数据拷贝到this.item
+                this.item=currentItem;
+                // 传入参数true表示显示对话框
+                this.$refs.dialog.showDialog(true)
+            },
+            createitem: function() {
+                    // 将item追加到dataList
+                    this.dataList.push(this.item)
+                    // 广播事件，传入参数false表示隐藏对话框
+                    this.$refs.dialog.showDialog(false)
+                    // 新建完数据后，重置item对象
+                    this.item = {}
+
+            },
+            updateitem: function() {
+                for(var i = 0; i < this.dataList.length; i++) {
+                    // 根据主键查找要修改的数据，然后将this.item数据更新到this.dataList[i]
+                    if(this.dataList[i]["name"] === this.item["name"]) {
+                            this.dataList[i]= this.item
+                        break;
+                    }
+                }
+                // 传入参数false表示隐藏对话框
+                this.$refs.dialog.showDialog(false)
+                // 修改完数据后，重置item对象
+                this.item = {}
+            },
+            findItemByKey: function(key) {
+                for(var i = 0; i < this.dataList.length; i++) {
+                    if(this.dataList[i]["name"] === key) {
+                        return this.dataList[i]
+                    }
+                }
+            },
+            onlyShow:function(){
+                this.tf=!this.tf;
+            }
+        },
+        computed: {
+            filteredData: function () {
+                var self = this;
+                if(this.dataList!=''){
+                    return self.dataList.filter(function (item) {
+                        return item.name.toLowerCase().indexOf(self.searchKey.toLowerCase()) !== -1;
+                    })
+                }
+            }
+        },
+        components: {
+            'modal-dialog': {
+                template: '#dialog-template',
+                data: function () {
+                    return {
+                        // 对话框默认是不显示的
+                        show: false
+                    }
+                },
+                props: ['mode', 'title', 'fields', 'item'],
+                methods: {
+                    close: function () {//关闭模态框
+                        this.show = false
+                    },
+                    save: function() {//保存数据
+                        if(this.mode === 1) {
+                            console.log(123)
+                            // 调用simple-grid的createitem事件
+                            this.$parent.createitem();
+                        } else if(this.mode === 2) {
+                            // 调用simple-grid的updateitem事件
+                            this.$parent.updateitem();
+                        }
+                    },
+                    showDialog: function(show) {
+                        this.show = show
+                    }
+                },
+                events: {
+                    'showDialog': function(show) {
+                        this.show = show
+                    }
+                }
+            }
+        }
+    })
+    var demo = new Vue({
+        el: '#app',
+        data: {
+            searchQuery: '',
+            columns: [{
+                name: 'name',
+                isKey: true
+            }, {
+                name: 'age'
+            },{
+                name:'sex',
+                isSex:true,
+                option:["man","woman"]
+            },{
+                name:'selected',
+                isSelected:true
+            }],
+            people:''
+        },
+        created:function(){//初始化数据
+            this.$http.get('data.json').then(function(response){
+                this.$set(this.$data,"people", response.data);
+            },function(response){
+                alert(response.status);
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

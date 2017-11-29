@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    {{message}}
+    <input type="text" v-model="message"/>
+    <hr/>
+    {{lazyMessage}}
+    <!--当输入框失去焦点的时候,lazyMessage数据才会改变-->
+    <input type="text" v-model.lazy="lazyMessage"/>
+    <hr/>
+    {{numberMessage}}
+    <!--当输入框先输入数字,再输入字母后，numberMessage会只保留数字部分，输入框失去焦点的时候,输入框里的非数字会消失-->
+    <input type="text" v-model.number="numberMessage"/>
+    <hr/>
+    {{trimMessage}}
+    <!--当输入框先输入数字,再输入字母后，numberMessage会只保留数字部分，输入框失去焦点的时候,输入框里的非数字会消失-->
+    <input type="text" v-model.trim="trimMessage"/>
+    <hr/>
+    <div>文本域</div>
+    {{areaMessage}}
+    <textarea cols="50" rows="5" v-model="areaMessage"></textarea>
+    <h5>多选按钮绑定一个值</h5>
+    <!--isTrue绑定了checkbox的状态，checkbox的状态改变的话，isTrue的值也会相应改变-->
+    <input type="checkbox" id="cb" v-model="isTrue">
+    <label for='cb'>{{isTrue}}</label>
+    <h5>多选绑定一个数组</h5>
+    <!-- 三个checkBox都绑定了一个web_Names数组,web_Names就是三个checkBox的value值
+    如果web_Names不是数组,是boolean或者'',那么点击其中一个checkBox,三个checkBox的值都会改变,web_Names
+    中的值也会变成true或者false-->
+    <p>
+        <label><input type="checkbox" value="JSPang" v-model="web_Names"></label>
+        <label><input type="checkbox" value="Panda" v-model="web_Names"></label>
+        <label><input type="checkbox" value="PanPan" v-model="web_Names"></label>
+    <p>{{web_Names}}</p>
+    </p>
+    <h3>单选按钮绑定</h3>
+
+    <label> <input type="radio" id="one" value="男" v-model="sex"/>男</label>
+    <label><input type="radio" id="two" value="女" v-model="sex"/>女</label>
+    <p>{{sex}}</p>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello World',
+            lazyMessage: 'Hello',
+            numberMessage: '',
+            trimMessage: '',
+            areaMessage: '',
+            isTrue: true,
+            web_Names: [],
+            sex:'男'
+        }
+    });
+</script>
+</body>
+</html>

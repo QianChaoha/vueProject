@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <button @click="add">增加</button>
+    <button onclick="app.$destroy()">销毁</button>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 1
+        },
+        methods: {
+            add: function () {
+                this.message++;
+            }
+        },
+        beforeCreate: function () {
+            console.log('1-beforeCreate 初始化之前');
+        },
+        //可在创建完成方法加载lodding动画
+        created: function () {
+            console.log('2-created 创建完成');
+        },
+        beforeMount: function () {
+            console.log('3-beforeMount 挂载之前');
+        },
+        //可在挂载之后方法结束lodding动画
+        mounted: function () {
+            console.log('4-mounted 挂载之后');
+        },
+        //以上是网页加载时只会调用一次的方法
+
+        /*=========================这里的方法，每次数据更新一次就会调用一次=========================*/
+        beforeUpdate: function () {
+            console.log('5-beforeUpdate 数据更新前');
+        },
+        updated: function () {
+            console.log('6-updated 被更新后');
+        },
+        /*=========================这里的方法，每次数据更新一次就会调用一次=========================*/
+        activated: function () {
+            console.log('7-activated');
+        },
+        deactivated: function () {
+            console.log('8-deactivated');
+        },
+        /*=========================销毁时调用的方法========================*/
+        beforeDestroy: function () {
+            console.log('9-beforeDestroy 销毁之前');
+        },
+        destroyed: function () {
+            console.log('10-destroyed 销毁之后')
+        }
+        /*=========================销毁时调用的方法========================*/
+
+    })
+</script>
+</body>
+</html>

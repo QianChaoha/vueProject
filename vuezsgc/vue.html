@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <link rel="stylesheet" href="css/public.css" />
+    <script src="js/vue2.js"></script>
+    <script src="js/vue-resource.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <span>SearchByName: </span>
+    <input v-model="searchQuery">
+    <table>
+        <thead>
+        <tr>
+            <td v-for="col in columns">{{col|capitalize}}</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="entry in filteredData">
+            <td v-for="col in columns">{{entry[col]}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            searchQuery: '',
+            columns: ['name', 'gender', 'age'],
+            datalist: [{
+                name: 'Jack',
+                gender: 'male',
+                age: 26
+            }, {
+                name: 'John',
+                gender: 'female',
+                age: 20
+            }, {
+                name: 'Lucy',
+                gender: 'female',
+                age: 16
+            }]
+        },
+        filters: {
+            capitalize: function (value) {
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        },
+        computed: {
+            filteredData: function () {
+                var self = this;
+                return this.datalist.filter(function (e) {
+                    return e.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+                })
+            }
+        }
+    });
+</script>
+</body>
+</html>

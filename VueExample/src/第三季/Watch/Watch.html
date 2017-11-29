@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    今日温度:{{temperature}}摄氏度<br/>
+    穿衣建议:{{message}}<br/>
+    <button @click="add">增加</button>
+    <button @click="reduce">减少</button>
+</div>
+<script type="text/javascript">
+    var app=new Vue({
+        el:'#app',
+        data:{
+            temperature:10,
+            message:'夹克长裙'
+        },
+        methods:{
+            add:function () {
+                this.temperature+=5;
+//                this.showMessage();
+            },
+            reduce:function () {
+                this.temperature-=5;
+//                this.showMessage();
+            },
+            showMessage(){
+                if (this.temperature>=25){
+                    this.message='衬衫';
+                }else if (this.temperature>=10){
+                    this.message='夹克长裙';
+                }else {
+                    this.message='棉袄';
+                }
+            }
+        }
+    });
+    //第一个参数   监控的数据
+    app.$watch('temperature',function(newVal,oldVal){
+        if (this.temperature>=25){
+            this.message='衬衫';
+        }else if (this.temperature>=10){
+            this.message='夹克长裙';
+        }else {
+            this.message='棉袄';
+        }
+    })
+</script>
+</body>
+</html>

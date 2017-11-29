@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+<author></author>
+<div id="author"></div>
+<script>
+    var authorExtend=Vue.extend({
+        template:`<p><a :href='authorUrl'>{{authorName}}</a></p>`,
+        data:function () {
+            return{
+                authorName:"jsqian",
+                authorUrl:"http://www.baidu.com",
+            }
+        }
+    });
+
+    new authorExtend().$mount('author');
+    //通过id绑定
+    new authorExtend().$mount('#author');
+</script>
+</body>
+</html>

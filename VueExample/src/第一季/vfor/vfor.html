@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<h1>vfor</h1>
+<hr/>
+<div id="app">
+    <ol>
+        <!--用in遍历items数组,取出的数据为item-->
+        <ul v-for="item in sortItems">{{item}}</ul>
+    </ol>
+    <hr/>
+    <ol>
+        <ul v-for="(student,index) in sortStudents">第{{index}}位学生{{student.name}}--{{student.age}}</ul>
+    </ol>
+</div>
+<script type="text/javascript">
+    var app=new Vue({
+        el:'#app',
+        data:{
+            items:[2,6,8,19,5],
+            students:[
+                {name:'as',age:12},
+                {name:'ac',age:18},
+                {name:'ab',age:16},
+            ]
+        },
+        /*在输出items之前做的操作*/
+        computed:{
+            /*返回值不能和items重名*/
+            sortItems:function () {
+                /*这个排序有问题,
+                return this.items.sort();*/
+                return this.items.sort(compare);
+            },
+            sortStudents:function () {
+                return sortByKey(this.students,'age');
+            }
+        },
+    });
+    function compare(a,b){
+        return a-b;
+    }
+    //数组对象方法排序:
+    function sortByKey(array,key){
+        return array.sort(function(a,b){
+            var x=a[key];
+            var y=b[key];
+            return ((x<y)?-1:((x>y)?1:0));
+        });
+    }
+</script>
+</body>
+</html>

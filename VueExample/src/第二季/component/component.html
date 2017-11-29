@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    {{message}}
+    <jsqian></jsqian>
+    <panda></panda>
+
+</div>
+<hr/>
+<div id="apa">
+    <jsqian></jsqian>
+    <panda></panda>
+
+</div>
+<script type="text/javascript">
+    //第二个参数接收一个对象,写法跟new Vue里的参数差不多
+    //注意组件只有在vue的作用域里面,即id为app和apa的容器里面才有效果
+    //全局的组件在构造器外面定义
+    Vue.component('jsqian',{
+        template:`<div style="color: red">这是全局的jsqian组件</div>`,
+    });
+    var app=new Vue({
+        el:'#app',
+        data:{
+            message:'Hello World'
+        },
+        //局部的组件在构造器里面定义,这个组件只能在id为app的容器里面使用
+        components:{
+            "panda":{
+                template:`<div style="color:red;">局部注册的panda标签</div>`
+            }
+        }
+    });
+    var apa=new Vue({
+        el:'#apa',
+        data:{
+            message:'Hello World'
+        }
+    });
+</script>
+</body>
+</html>

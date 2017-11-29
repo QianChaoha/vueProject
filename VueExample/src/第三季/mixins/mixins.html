@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    {{num}}
+    <button @click="add">增加</button>
+    <button @click="reduce">减少</button>
+</div>
+<script type="text/javascript">
+    //额外临时加入时，用于显示日志
+    var addLog={
+        //混入的生命周期updated方法比原生的会先执行
+        updated:function(){
+            console.log("数据放生变化,变化成"+this.num+".");
+        }
+    }
+    //我们也可以定义全局的混入，这样在需要这段代码的地方直接引入js，就可以拥有这个功能了。我们来看一下全局混入的方法：
+    //全局混入的执行顺序要前于混入和构造器里的方法
+    Vue.mixin({
+        updated:function(){
+            console.log('我是全局被混入的');
+        }
+    })
+    var app=new Vue({
+        el:'#app',
+        data:{
+            num:10,
+        },
+        methods:{
+            add:function () {
+                this.num+=5;
+            },
+            reduce:function () {
+                this.num-=5;
+            },
+        },
+        updated:function(){
+            console.log("原生里的updated方法。")
+        },
+        //等于将addLog里的代码加到了app里面。好处是，这样做不会影响到以前的代码
+        mixins:[addLog]//混入
+    });
+</script>
+</body>
+</html>

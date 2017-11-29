@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<h1>hello world</h1>
+<hr/>
+<div id="app">
+    <div v-jsqian="color">{{score}}</div>
+    <button v-on:click="addScore">加分</button>
+    <button onclick="unBind()">解绑</button>
+</div>
+<script type="text/javascript">
+    //    Vue.directive('jsqian',function (el, binding) {
+    //        //el: 指令所绑定的元素，可以用来直接操作DOM。
+    //        //binding的name和value就对应了v-jsqian="color",而color在data中赋值blue,所以
+    //        //binding.name和binding.value就是jsqian和blue
+    //        console.log(el);
+    //        console.log(binding);
+    //        el.style='color:'+binding.value;
+    //    });
+    function unBind() {
+        app.$destroy();
+    }
+    //自定义指令有五个生命周期（也叫钩子函数），分别是 bind,inserted,update,componentUpdated,unbind
+    Vue.directive('jsqian', {
+        bind: function (el, binding) {//被绑定
+            console.log('1 - bind');
+            el.style = 'color:' + binding.value;
+        },
+        inserted: function () {//绑定到节点
+            console.log('2 - inserted');
+        },
+        update: function () {//组件更新
+            console.log('3 - update');
+        },
+        componentUpdated: function () {//组件更新完成
+            console.log('4 - componentUpdated');
+        },
+        unbind: function () {//解绑
+            console.log('5 - unbind');
+        }
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            score: 0,
+            color: 'blue'
+        },
+        methods: {
+            addScore: function () {
+                this.score++;
+            },
+        }
+    });
+</script>
+</body>
+</html>

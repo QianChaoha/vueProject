@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+    <script type="text/javascript" src="../../../js/jquery-3.2.1.js"></script>
+</head>
+<body>
+
+<div id="app">
+    {{message}}
+</div>
+<script type="text/javascript">
+    var app=new Vue({
+        el:'#app',
+        data:{
+            message:'Hello World'
+        },
+        mounted(){
+            //只有在所有组件都挂载完成之后才能修改
+            $('#app').html('Jquery');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    {{message}}
+    <hr/>
+    {{count}}
+    <ol>
+        <ul v-for="item in arr">{{item}}</ul>
+    </ol>
+</div>
+
+<input type="button" onclick="add()" value="添加"/>
+<input type="button" onclick="channge()" value="改变数组的值"/>
+<script type="text/javascript">
+    function add() {
+        //第一种实现方式将outData中的count设置为2
+        //Vue.set(outData,'count',2);
+        //第二种实现方式,直接使用变量app
+//        this.app.count=2;
+        //第三种实现方式,直接使用变量outData
+        this.outData.count = 2;
+    }
+    function channge() {
+        //为什么要有Vue.set的存在?
+        //由于Javascript的限制，Vue不能自动检测以下变动的数组。
+        //当你利用索引直接设置一个项时，vue不会为我们自动更新。
+        //当你修改数组的长度时，vue不会为我们自动更新。
+        //this.outData.arr[1]='dd';//这种方式,数组是不会变化的
+        Vue.set(outData.arr, 1, 'dd');
+    }
+    var outData = {
+        message: 'hello world',
+        count: 'haha',
+        arr: ['a', 'f', 'h']
+    };
+    var app = new Vue({
+        el: '#app',
+        data: outData,
+    });
+</script>
+</body>
+</html>
