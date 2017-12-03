@@ -47,12 +47,19 @@
             console.log('6-updated 被更新后');
         },
         /*=========================这里的方法，每次数据更新一次就会调用一次=========================*/
+
+
+
         activated: function () {
             console.log('7-activated');
         },
         deactivated: function () {
             console.log('8-deactivated');
         },
+
+
+
+
         /*=========================销毁时调用的方法========================*/
         beforeDestroy: function () {
             console.log('9-beforeDestroy 销毁之前');
