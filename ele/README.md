@@ -84,7 +84,7 @@ Vue.use(VueResource)
   ### 9.2 添加ref
     ref="menuWrapper"
     ref="foodWrapper"
-  ### 9.3 添加初始化逻辑(这里要用驼峰foodWrapper)
+  ### 9.3 添加初始化逻辑
        methods:{
             _initScroll:function () {
                this.menuScroll = new BScroll(this.$refs.menuWrapper, {});
