@@ -1,0 +1,18 @@
+@import "../../stylus/mixin.styl"
+.icon
+  width 12px
+  height 12px
+  background-size 12px 12px
+  background-repeat no-repeat
+  display inline-block
+  //&.decrese等同于 .icon.decrese   子样式
+  &.decrease
+    bg-image('decrease_2')
+  &.discount
+    bg-image('discount_2')
+  &.guarantee
+    bg-image('guarantee_2')
+  &.invoice
+    bg-image('invoice_2')
+  &.special
+    bg-image('special_2')

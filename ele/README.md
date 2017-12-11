@@ -63,4 +63,38 @@ app.use('/api', apiRoutes);
 Vue.use(VueResource)
 执行之后才可以使用
 5.在main.js中加载的公共样式index.styl,这样App.vue里面就可以直接使用加载进来的公共样式
-
+6.水平居中
+  6.1 margin和width实现水平居中
+  父元素有明确的宽度,配合margin的左右值为“auto”实现效果
+  6.2 inline-block实现水平居中方法
+  父容器中设置text-align的属性为“center”,子元素设置display : inline-block
+  6.3 浮动实现水平居中的方法 https://www.w3cplus.com/css/elements-horizontally-center-with-css.html
+7.垂直居中
+  7.1 单行文本
+  只需为它们添加等值的 padding-top 和 padding-bottom 就可以实现垂直居中
+  7.2 多行文本
+  同样可以使用等值 padding-top 和 padding-bottom 的方式实现垂直居中。如果你在使用过程中发现这种方法没见效，
+  那么你可以通过 CSS 为文本设置一个类似 table-cell 的父级容器，然后使用 vertical-align 属性实现垂直居中
+  7.3 flex布局
+8.better-scroll
+  8.1 在package.json中添加依赖
+     "better-scroll": "^1.5.5"
+     然后运行npm stall
+  8.2 添加ref
+    ref="menuWrapper"
+    ref="foodWrapper"
+  8.3 添加初始化逻辑(这里要用驼峰foodWrapper)
+       methods:{
+            _initScroll:function () {
+               this.menuScroll = new BScroll(this.$refs.menuWrapper, {});
+                       this.foodScroll = new BScroll(this.$refs.foodWrapper, {});
+            }
+       },
+  8.4 获取数据后调用初始化方法
+     this.$http.get('/api/goods').then((response)=> {
+            response = response.body;
+            if (response.errno === 0) {
+              this.goods = response.data;
+              this._initScroll();
+            }
+     });

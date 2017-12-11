@@ -41,8 +41,10 @@
             <tbody>
             <tr v-for="entry in filteredData " v-show="tf?true:entry['selected']">
                 <td v-for="col in columns">
+                    <!--每次循环都要从下面三种标签类型中选出一种,数据是columns中写的定值-->
+                    <!--columns的作用是显示何种标签,filteredData的作用是标签中显示什么内容-->
                     <select v-if="col.isSex" v-model="entry[col.name]">
-                        <option v-for="opt in col.option" :value="opt" :selected="opt==entry[col.name]?true:false" v-html="opt"></option>
+                        <option v-for="opt in col.option" :selected="opt==entry[col.name]?true:false" >{{opt}}</option>
                     </select>
                     <input v-else-if="col.isSelected" type="checkbox" :checked="entry[col.name]" v-model="entry[col.name]">
                     <span v-else v-html="entry[col.name]"></span>
@@ -58,6 +60,7 @@
             <button class="btn" @click="openNewItemDialog('增加')">增加</button>
             <button class="btn" @click="onlyShow()">仅显示选中</button>
         </div>
+        <!--新增对话框-->
         <modal-dialog :mode="mode" :title="title" :item="item" :fields="columns" ref="dialog">
         </modal-dialog>
     </div>
@@ -65,6 +68,7 @@
 <template id="dialog-template">
     <div>
         <div class="dialogs">
+<!--            通过控制show的booelan值来决定是否添加dialog-active样式,添加后就能显示出来-->
             <div class="dialog" :class="{ 'dialog-active': show }">
                 <div class="dialog-content">
                     <header class="dialog-header">
@@ -73,6 +77,7 @@
                     <div class="dialog-body">
                         <div v-for="field in fields" class="form-group">
                             <label v-html="field.name"></label>
+                            <!--绑定了item对象的属性-->
                             <select v-if="field.isSex" v-model="item[field.name]">
                                 <option v-for="opt in field.option" :value="opt" :selected="opt==item[field.name]?true:false">{{ opt }}</option>
                             </select>
@@ -96,6 +101,7 @@
 <script>
     Vue.component('simple-grid', {
         template: '#grid-template',
+        //使用时不能用大写字母,全部小写 大写字母的前面用-隔开
         props: ['dataList','columns','searchKey'],//设置属性
         data: function() {
             return {
@@ -119,6 +125,7 @@
                 this.title = title;// 对话框的标题
                 this.mode = 1;// mode = 1表示新建模式
                 this.item = {};// 初始化this.item
+                //在子组件中加上ref，即可在父组件中通过this.$refs.ref.method调用
                 this.$refs.dialog.showDialog(true);// 传入true表示显示对话框
             },
             openEditItemDialog: function(key) {
@@ -169,9 +176,23 @@
             filteredData: function () {
                 var self = this;
                 if(this.dataList!=''){
-                    return self.dataList.filter(function (item) {
+                    // 相当于
+                    //   var newArr = [];
+                    //   for(var i= 0, l = arr.length; i< l; i++){
+                    //       if(item.name.toLowerCase().indexOf(self.searchKey.toLowerCase()) !== -1){
+                    //           newArr.push(arr[i]);
+                    //       }
+                    //   }
+                    //   return newArr;
+                    //由于searchKey为'',indexOf方法返回的结果都是0
+                    //主要是筛选操作,相当于实现查询操作,不查询时与直接return this.dataList 没有区别
+                    var newArr = [];
+                    newArr= self.dataList.filter(function (item) {
                         return item.name.toLowerCase().indexOf(self.searchKey.toLowerCase()) !== -1;
                     })
+
+                    console.log(newArr);
+                    return newArr;
                 }
             }
         },
@@ -181,13 +202,13 @@
                 data: function () {
                     return {
                         // 对话框默认是不显示的
-                        show: false
+                        show: false,
                     }
                 },
                 props: ['mode', 'title', 'fields', 'item'],
                 methods: {
-                    close: function () {//关闭模态框
-                        this.show = false
+                        close: function () {//关闭模态框
+                            this.show = false
                     },
                     save: function() {//保存数据
                         if(this.mode === 1) {
@@ -203,11 +224,12 @@
                         this.show = show
                     }
                 },
-                events: {
+                /*vue2.0废弃了events*/
+               /* events: {
                     'showDialog': function(show) {
                         this.show = show
                     }
-                }
+                }*/
             }
         }
     })
@@ -215,6 +237,7 @@
         el: '#app',
         data: {
             searchQuery: '',
+            //标题栏数据
             columns: [{
                 name: 'name',
                 isKey: true
@@ -228,11 +251,13 @@
                 name:'selected',
                 isSelected:true
             }],
+            //表格体内容区域数据
             people:''
         },
         created:function(){//初始化数据
             this.$http.get('data.json').then(function(response){
-                this.$set(this.$data,"people", response.data);
+//                this.$set(this.$data,"people", response.data);
+                this.people= response.data;
             },function(response){
                 alert(response.status);
             });

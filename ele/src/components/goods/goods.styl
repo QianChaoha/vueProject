@@ -1,0 +1,92 @@
+@import "../../commen/stylus/mixin.styl"
+.goods
+  display flex
+  position absolute
+  /*因为header的高度是174px*/
+  top 174px
+  /*因为最底部的购物车的高度是64px*/
+  bottom 64px
+  width 100%
+  overflow hidden
+  .menu-wrapper
+    //flex可以设置三个值，第一个值必选，后两个可选
+    //flex的第一个值:可以用flex-grow单独设置，代表含义是对额外空间的占据量，所谓额外空间就是这一行多余的空间，有多余的空间这一属性才有用。默认值是0，意思就是即使有多余空间，它也不要
+    //flex的第二个值:可以用flex-shrink单独设置，这个属性只有在没有额外空间时起作用，意思是没有额外空间时，成员贡献出空间的大小。默认值为1，如果为0意思是不贡献空间，也就是说即使空间不足，成员大小也不发生改变
+    //flex的第三个值:可以用flex-basis来设置，这个值呢，表示在分配额外空间之前，成员占据的空间，默认值为auto，意思就是你本来占多少就是多少。但也可以自己设置长度(px)。这个值的效果就是确定在释放和分配空间的时候，你的初值是多少
+    flex 0 0 80px
+    /*考虑兼容*/
+    width 80px
+    background #f3f5f7
+    .menu-item
+      //垂直居中
+      display table
+      height 54px
+      width 56px
+      line-height 14px
+      margin 0 auto
+      .text
+        display table-cell
+        width 56px
+        vertical-align middle
+        font-size 12px
+        border-1px(rgba(7,17,27,0.1))
+  .foods-wrapper
+    flex 1
+    .title
+      line-height 26px
+      height 26px
+      padding-left 14px
+      border-left solid 2px #d9dde1
+      font-size 12px
+      color rgb(147,153,159)
+      background #f3f5f7
+      //因为food-item的左侧布局宽度固定,右侧布局占满剩下的空间,还是要用flex布局
+    .food-item
+      display flex
+      margin 18px
+      padding-bottom 18px
+      border-1px(rgba(7,17,27,0.1))
+      &:last-child
+        //最后一个条目下面不需要加下划线
+        border-none()
+        //最后一个条目下面不需要padding-bottom
+        margin-bottom 0px
+      .icon
+        flex 0 0 57px
+        width 57px
+        height 57px
+        margin-right 10px
+        .image
+          width 57px
+          height 57px
+          background-size 57px,57px
+          background-repeat no-repeat
+      .content
+        flex 1
+        .name
+          margin 2px 0 8px 0
+          height 14px
+          line-height 14px
+          font-size 14px
+          color rgb(7,17,27)
+        .desc,.extra
+          //desc和extra相同的样式
+          font-size 10px
+          line-height 10px
+          color rgb(147,153,159)
+        .desc
+          margin-bottom 8px
+        .extra
+          .count
+            margin-right 6px
+        .price
+          font-weight 700
+          line-height 24px
+          .now
+            margin-right 18px
+            font-size 14px
+            color rgb(240,20,20)
+          .old
+            text-decoration :line-through
+            font-size 10px
+            color rgb(147,153,159)

@@ -26,10 +26,10 @@
     },
     created: function () {
       this.$http.get('/api/seller').then((response)=> {
-        console.log(response);
         response = response.body;
         if (response.errno === 0) {
           this.seller = response.data;
+          console.log("seller: " + this.seller);
         }
       });
     },

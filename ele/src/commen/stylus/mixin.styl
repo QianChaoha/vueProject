@@ -8,7 +8,12 @@ border-1px($color)
     width: 100%
     border-top: 1px solid $color
     content: ' '
-
+//将&:after的display置为none(因为使用border-1px()会在当前元素(ul下的li)下面加一条线,需求:最后一个元素不需要线。
+//覆盖掉border-1px中display: block属性)
+border-none()
+  &:after
+    display none
+//适配不同的屏幕密度,显示不同粗细的线条,使用方式,在引入此style文件后，给相应的标签添加border-1px的class
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5)
   .border-1px
     &::after

@@ -1,4 +1,11 @@
-body,html
-  line-height 1
-  font-weight 200
-
+//清除浮动的作用
+//设置给div,可以让其独占一行,但是宽度跟span一样,靠子控件撑开
+.clearfix
+  display inline-block
+  &:after
+    display block
+    content '.'
+    height  0
+    line-height 0
+    clear both
+    visibility hidden

@@ -1,0 +1,15 @@
+//注意:导入组件使用时,组件里的样式也被导入,如果class有同名会产生互相影响
+//解决办法,此文件中最顶层的class保证唯一即可
+.lint-title
+  display flex
+  width 80%
+  margin 30px auto 24px auto
+  .line
+    flex 1
+    position relative
+    top -6px
+    border-bottom 1px solid rgba(255,255,255,0.2)
+  .text
+    padding 0 12px
+    font-size 14px
+    font-weight bold
