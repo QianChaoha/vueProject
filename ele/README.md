@@ -92,7 +92,6 @@
             }
        },
   ### 9.4 获取数据后调用初始化方法
-     ```
      this.$http.get('/api/goods').then((response)=> {
             response = response.body;
             if (response.errno === 0) {
@@ -100,4 +99,3 @@
               this._initScroll();
             }
      });
-     ```
