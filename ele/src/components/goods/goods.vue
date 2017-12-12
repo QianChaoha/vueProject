@@ -117,7 +117,7 @@
         let el = foodList[index];
         //类似jump to的功能,通过这个方法,跳转到指定的dom
         //在_initScroll方法中,有添加成员变量foodScroll
-        this.foodScroll.scrollToElement(el, 300);
+        this.foodScroll.scrollToElement(el, 300);//滚动的动作花费300毫秒
       }
     },
     components: {

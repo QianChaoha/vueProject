@@ -111,3 +111,19 @@
       1. v-if 是“真正的”条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
       2. v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
       一般来说， v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件不太可能改变，则使用 v-if 较好。
+## 12. 右侧滑动时,左侧menu会根据右侧的信息进行滚动
+   ### 12.1 在data中添加两个变量listHeight和scrollY
+   ### 12.2 在methods中添加方法_initScroll和_calculateHeight
+            _initScroll方法作用是监听foodWrapper的滚动事件,并把滚动时的偏移赋值给scrollY
+            _calculateHeight方法作用是获取foodWrapper下的所有行(li标签),然后将所有行的高度都push到listHeight数组中,
+   ### 12.3 在computed中添加方法currentIndex
+            因为在12.1和12.2中listHeight和scrollY都已经有值了,在currentIndex方法中判断,当前滑动的scrollY落在数组listHeight的
+            哪个区间内,返回那个区间的index
+   ### 12.4 给menuWrapper添加绑定样式
+            样式绑定在menuWrapper某一行(menuWrapper下的li标签),:class="{'current':currentIndex===index}"。根据computed下的
+            currentIndex方法返回值和当前的index是否相等,相等的话添加current样式
+   ### 12.5 最后添加current样式
+## 13. 左侧点击时,右侧会根据左侧点击的条目滚动到相应位置
+       给左侧menuWrapper每一行一行(menuWrapper下的li标签)绑定点击事件@click="selectMenu(index,$event)"
+       根据index从foodWrapper下的所有行(li标签)找到应该在顶部的行,最后执行滚动到该行(el)的代码
+       this.foodScroll.scrollToElement(el, 300);
