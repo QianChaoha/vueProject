@@ -24,12 +24,22 @@
       width 56px
       line-height 14px
       margin 0 auto
+      //左右的12px padding 加上宽度56px,正好等于menu-wrapper的宽度80px
+      padding 0 12px
+      &.current
+        position relative
+        z-index 10
+        margin-top -1px
+        font-weight 700
+        background #fff
+        .text
+          border-none()
       .text
         display table-cell
         width 56px
         vertical-align middle
         font-size 12px
-        border-1px(rgba(7,17,27,0.1))
+        border-1px(rgba(7, 17, 27, 0.1))
   .foods-wrapper
     flex 1
     .title
@@ -38,14 +48,14 @@
       padding-left 14px
       border-left solid 2px #d9dde1
       font-size 12px
-      color rgb(147,153,159)
+      color rgb(147, 153, 159)
       background #f3f5f7
-      //因为food-item的左侧布局宽度固定,右侧布局占满剩下的空间,还是要用flex布局
+    //因为food-item的左侧布局宽度固定,右侧布局占满剩下的空间,还是要用flex布局
     .food-item
       display flex
       margin 18px
       padding-bottom 18px
-      border-1px(rgba(7,17,27,0.1))
+      border-1px(rgba(7, 17, 27, 0.1))
       &:last-child
         //最后一个条目下面不需要加下划线
         border-none()
@@ -59,7 +69,7 @@
         .image
           width 57px
           height 57px
-          background-size 57px,57px
+          background-size 57px, 57px
           background-repeat no-repeat
       .content
         flex 1
@@ -68,12 +78,12 @@
           height 14px
           line-height 14px
           font-size 14px
-          color rgb(7,17,27)
-        .desc,.extra
+          color rgb(7, 17, 27)
+        .desc, .extra
           //desc和extra相同的样式
           font-size 10px
           line-height 12px
-          color rgb(147,153,159)
+          color rgb(147, 153, 159)
         .desc
           margin-bottom 8px
         .extra
@@ -85,8 +95,8 @@
           .now
             margin-right 8px
             font-size 14px
-            color rgb(240,20,20)
+            color rgb(240, 20, 20)
           .old
-            text-decoration :line-through
+            text-decoration: line-through
             font-size 10px
-            color rgb(147,153,159)
+            color rgb(147, 153, 159)
