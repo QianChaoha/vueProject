@@ -36,7 +36,7 @@ var ratings = appData.ratings;
 var apiRoutes = express.Router();
 app.use('/api', apiRoutes);
 然后找到devServer,添加
-  before(app) {
+  `before(app) {
     app.get('/api/seller', (req, res) => {
       res.json({
         // 这里是你的json内容
@@ -58,7 +58,7 @@ app.use('/api', apiRoutes);
         data: ratings
       })
     })
-  }
+  }`
 再访问本地数据就可以了
 ## 5.使用vue-resource之前要安装vue-resource，然后在index.js中执行
 Vue.use(VueResource)
@@ -85,17 +85,17 @@ Vue.use(VueResource)
     ref="menuWrapper"
     ref="foodWrapper"
   ### 9.3 添加初始化逻辑
-       methods:{
+       `methods:{
             _initScroll:function () {
                this.menuScroll = new BScroll(this.$refs.menuWrapper, {});
                        this.foodScroll = new BScroll(this.$refs.foodWrapper, {});
             }
-       },
+       },`
   ### 9.4 获取数据后调用初始化方法
-     this.$http.get('/api/goods').then((response)=> {
+     `this.$http.get('/api/goods').then((response)=> {
             response = response.body;
             if (response.errno === 0) {
               this.goods = response.data;
               this._initScroll();
             }
-     });
+     });`
