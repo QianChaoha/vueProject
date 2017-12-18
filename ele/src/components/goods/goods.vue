@@ -34,18 +34,25 @@
                   <span class="now">{{food.price}}</span><span class="old"
                                                                v-show="food.oldPrice">{{food.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <v-cartcontrol :food="food"></v-cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <!--将配送费和起送费传递进去-->
+    <v-shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></v-shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import CommenIcon from '../../commen/components/commen_icon/CommenIcon.vue'
   import BScroll from 'better-scroll'
+  import ShopCart from '../shopcart/ShopCart.vue'
+  import CartControl from '../../commen/components/cartcontrol/CartControl.vue'
   export default {
     props: ['seller'],
     data(){
@@ -91,7 +98,8 @@
         //{click: true},是否将click事件传递,默认被拦截了
         this.menuScroll = new BScroll(this.$refs.menuWrapper, {click: true});
         //probaType: 3 表示实时派发scroll事件
-        this.foodScroll = new BScroll(this.$refs.foodWrapper, {probeType: 3});
+        //不加click: true的话,子控件接收不到点击事件
+        this.foodScroll = new BScroll(this.$refs.foodWrapper, {click: true, probeType: 3});
         //监听scroll事件，在第二个参数function中返回
         this.foodScroll.on('scroll', (pos)=> {
           this.scrollY = Math.abs(Math.round(pos.y));//将小数转化为正整数
@@ -121,7 +129,9 @@
       }
     },
     components: {
-      'v-commen-icon': CommenIcon
+      'v-commen-icon': CommenIcon,
+      'v-shopcart': ShopCart,
+      'v-cartcontrol': CartControl
     }
   }
 </script>
