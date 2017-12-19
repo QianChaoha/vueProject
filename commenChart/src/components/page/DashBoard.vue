@@ -8,7 +8,10 @@
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card class="chart-top-center"></el-card>
+        <el-card class="chart-top-center">
+          <!--仪表盘-->
+          <MeterChart></MeterChart>
+        </el-card>
       </el-col>
       <el-col :span="8">
         <el-card class="chart-top-right"></el-card>
@@ -23,7 +26,9 @@
         </el-card>
       </el-col>
       <el-col :span="16">
-        <el-card class="chart-bottom-right"></el-card>
+        <el-card class="chart-bottom-right">
+          <barChart></barChart>
+        </el-card>
       </el-col>
     </el-row>
 
@@ -35,6 +40,8 @@
 <script type="text/ecmascript-6">
   import pieChart from '../charts/pieChart.vue';
   import RegionMap from '../charts/RegionMap.vue';
+  import barChart from '../charts/barChart.vue';
+  import MeterChart from '../charts/MeterChart.vue';
   export default {
     data(){
       return {
@@ -42,7 +49,7 @@
       }
     },
     components: {
-      pieChart,RegionMap
+      pieChart,RegionMap,barChart,MeterChart
     }
   }
 </script>

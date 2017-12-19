@@ -25,7 +25,7 @@
                     legend: {
                         data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
                     },
-                    
+
                     grid: {
                         left: '1%',
                         right: '3%',
@@ -98,12 +98,12 @@
                             data:[820, 932, 901, 934, 1290, 1330, 1320]
                         }
                     ]
-                }  
+                }
             }),
 
             methods: {
-            
-               
+
+
             }
     }
 </script>
@@ -116,17 +116,17 @@
         font-size:80px;
         color:#ddd;
     }
-   
+
     .cart-string{
         height:100px;
         padding-top:10px;
         font-size:1.1rem;
-        
+
     }
     .c-charts{
-        height:400px;
+        height:250px;
         width:100%;
     }
- 
-    
+
+
 </style>

@@ -30,9 +30,7 @@
             mapType: '上海',
             label: {
               emphasis: {
-                textStyle: {
-                  color: '#5ECDD8'
-                }
+                show: false
               }
             },
             itemStyle: {
@@ -43,7 +41,7 @@
               },
               emphasis: {
                 areaColor: '#0CACC4',
-                borderWidth: 0
+                borderWidth: 1
               }
             },
           }
@@ -57,7 +55,7 @@
 
 <style scoped>
   .region-map {
-    height: 500px;
+    height: 250px;
     width: 100%;
   }
 </style>
