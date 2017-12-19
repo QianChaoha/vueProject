@@ -7,13 +7,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import vPageTitle from '../common/pageTitle.vue';
   import IEcharts from 'vue-echarts-v3';
   let chinaMap = require('../../assets/map/shanghai.json')
   IEcharts.registerMap('上海', chinaMap)
   export default {
     components: {
-      vPageTitle, IEcharts
+       IEcharts
     },
     data: () => ({
 

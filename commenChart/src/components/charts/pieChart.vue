@@ -7,11 +7,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import vPageTitle from '../common/pageTitle.vue';
   import IEcharts from 'vue-echarts-v3';
   export default {
     components: {
-      vPageTitle, IEcharts
+      IEcharts
     },
     data: () => ({
       //单图表类型：pie 饼状图

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <el-row :gutter="20" class="row-top">
+    <el-row :gutter="10" class="row-top">
       <el-col :span="8">
         <el-card class="chart-top-left">
           <!--饼状图-->
@@ -14,11 +14,13 @@
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card class="chart-top-right"></el-card>
+        <el-card class="chart-top-right">
+          <PowerChart></PowerChart>
+        </el-card>
       </el-col>
     </el-row>
 
-    <el-row :gutter="20" class="row-bottom">
+    <el-row :gutter="10" class="row-bottom">
       <el-col :span="8">
         <el-card class="chart-bottom-left">
           <!--上海电信区局地图-->
@@ -42,6 +44,7 @@
   import RegionMap from '../charts/RegionMap.vue';
   import barChart from '../charts/barChart.vue';
   import MeterChart from '../charts/MeterChart.vue';
+  import PowerChart from '../charts/PowerChart.vue';
   export default {
     data(){
       return {
@@ -49,19 +52,20 @@
       }
     },
     components: {
-      pieChart,RegionMap,barChart,MeterChart
+      pieChart,RegionMap,barChart,MeterChart,PowerChart
     }
   }
 </script>
 
 <style scoped>
-  .main{
+  .main {
     width: 100%;
     height: 100%;
     overflow: auto;
   }
   .chart-top-left, .chart-top-center, .chart-top-right, .chart-bottom-left, .chart-bottom-right {
     height: 100%;
+    margin-bottom: 10px;
   }
 
   .row-top, .row-bottom {
