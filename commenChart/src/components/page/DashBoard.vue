@@ -4,18 +4,18 @@
       <el-col :span="8">
         <el-card class="chart-top-left">
           <!--饼状图-->
-          <pieChart></pieChart>
+          <PieChart :pieData="pieData"></PieChart>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card class="chart-top-center">
           <!--仪表盘-->
-          <MeterChart></MeterChart>
+          <MeterChart :meterData="meterData"></MeterChart>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card class="chart-top-right">
-          <PowerChart></PowerChart>
+          <PowerChart :powerData="powerData"></PowerChart>
         </el-card>
       </el-col>
     </el-row>
@@ -29,7 +29,7 @@
       </el-col>
       <el-col :span="16">
         <el-card class="chart-bottom-right">
-          <barChart></barChart>
+          <BarChart :barData="barData"></BarChart>
         </el-card>
       </el-col>
     </el-row>
@@ -40,20 +40,49 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import pieChart from '../charts/pieChart.vue';
+  import PieChart from '../charts/PieChart.vue';
   import RegionMap from '../charts/RegionMap.vue';
-  import barChart from '../charts/barChart.vue';
+  import BarChart from '../charts/BarChart.vue';
   import MeterChart from '../charts/MeterChart.vue';
   import PowerChart from '../charts/PowerChart.vue';
   export default {
     data(){
       return {
-        //percentage:10
+        pieData:[],
+        meterData:[],
+        barData:[],
+        powerData:[],
       }
     },
     components: {
-      pieChart,RegionMap,barChart,MeterChart,PowerChart
-    }
+      PieChart, RegionMap, BarChart, MeterChart, PowerChart
+    },
+    created: function () {
+      this.$http.get('/api/nh').then((response)=> {
+        response = response.body;
+        if (response.errno === 0) {
+          this.pieData = response.data;
+        }
+      });
+      this.$http.get('/api/meter').then((response)=> {
+        response = response.body;
+        if (response.errno === 0) {
+          this.meterData = response.data;
+        }
+      });
+      this.$http.get('/api/bar').then((response)=> {
+        response = response.body;
+        if (response.errno === 0) {
+          this.barData = response.data;
+        }
+      });
+      this.$http.get('/api/power').then((response)=> {
+        response = response.body;
+        if (response.errno === 0) {
+          this.powerData = response.data;
+        }
+      });
+    },
   }
 </script>
 
@@ -63,6 +92,7 @@
     height: 100%;
     overflow: auto;
   }
+
   .chart-top-left, .chart-top-center, .chart-top-right, .chart-bottom-left, .chart-bottom-right {
     height: 100%;
     margin-bottom: 10px;

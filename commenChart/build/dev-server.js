@@ -12,6 +12,12 @@ var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
+
+
+
+
+
+
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // automatically open browser, if not set will be false
@@ -22,6 +28,69 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 var compiler = webpack(webpackConfig)
+
+
+
+
+
+
+
+
+// 引用的json地址
+var appData = require('../data.json')
+// json某一个key
+var nh = appData.nh;
+var meter = appData.meter;
+var bar = appData.bar;
+var power = appData.power;
+var apiRoutes = express.Router();
+app.use('/api', apiRoutes);
+app.get('/api/nh', (req, res) => {
+  res.json({
+    // 这里是你的json内容
+    errno: 0,
+    data: nh
+  })
+});
+app.get('/api/meter', (req, res) => {
+  res.json({
+    // 这里是你的json内容
+    errno: 0,
+    data: meter
+  })
+});
+app.get('/api/bar', (req, res) => {
+  res.json({
+    // 这里是你的json内容
+    errno: 0,
+    data: bar
+  })
+});
+app.get('/api/power', (req, res) => {
+  res.json({
+    // 这里是你的json内容
+    errno: 0,
+    data: power
+  })
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,

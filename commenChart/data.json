@@ -1,0 +1,104 @@
+{
+  "nh": [
+    {
+      "name": "水",
+      "value": 10,
+      "color": "#007DC9"
+    },
+    {
+      "name": "电",
+      "value": 20,
+      "color": "#1CA6B0"
+    },
+    {
+      "name": "天然气",
+      "value": 10,
+      "color": "#71D8AD"
+    },
+    {
+      "name": "煤气",
+      "value": 5,
+      "color": "#FED545"
+    },
+    {
+      "name": "煤油",
+      "value": 20,
+      "color": "#EE7E94"
+    },
+    {
+      "name": "汽油",
+      "value": 35,
+      "color": "#A967A7"
+    }
+  ],
+  "meter": {
+    "leftData": {
+      "ratio": 60,
+      "content": "同比",
+      "bottomText": "16000",
+      "innerColor": "",
+      "outterColor": ""
+    },
+    "centerData": {
+      "topText": "天然气",
+      "content": "1000",
+      "bottomText": "本月",
+      "color": ""
+    },
+    "rightData": {
+      "ratio": 30,
+      "content": "环比",
+      "bottomText": "1300",
+      "innerColor": "",
+      "outterColor": ""
+    }
+  },
+  "bar": {
+    "xData": [
+      "水",
+      "电",
+      "煤气",
+      "油",
+      "天然气"
+    ],
+    "contentData": [
+      {
+        "name": "股份",
+        "value": [320, 332, 301, 334, 300],
+        "color": "#B9A0DB"
+      },
+      {
+        "name": "全资子公司",
+        "value": [120, 132, 101, 134, 150],
+        "color": "#33C8CF"
+      },
+      {
+        "name": "控股子公司",
+        "value": [220, 182, 191, 234, 200],
+        "color": "#B5DEAA"
+      },
+      {
+        "name": "存续",
+        "value": [150, 232, 201, 154, 150],
+        "color": "#67D0FD"
+      }
+    ]
+  },
+  "power": {
+    "yData": [
+      "Top3", "Top2", "Top1"
+    ],
+    "contentData": [
+      {
+        "name": "电费",
+        "value": [33, 66, 80],
+        "color": "#4DB9E7"
+      },
+      {
+        "name": "电量",
+        "value":[46, 83, 80],
+        "color": "#B18FC1"
+      }
+    ]
+  }
+}

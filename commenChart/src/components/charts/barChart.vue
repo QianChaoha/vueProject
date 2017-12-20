@@ -8,9 +8,52 @@
 
 <script type="text/ecmascript-6">
   import IEcharts from 'vue-echarts-v3';
+  var context = {};
   export default {
+    beforeCreate () {
+      context = this;
+    },
+    props: ['barData'],
     components: {
       IEcharts
+    },
+    methods:{
+      setSeriesData:function () {
+        let list = [];
+        for (let i = 0; i < context.barData.contentData.length; i++) {
+          var dataItem = {
+            name:  context.barData.contentData[i].name,
+            type: 'bar',
+            data:  context.barData.contentData[i].value,
+            itemStyle: {
+              normal: {
+              //柱形边框圆角，单位px，默认为0，支持传入数组分别指定柱形4个圆角半径，
+              //如:[5, 5, 0, 0]（顺时针左上，右上，右下，左下）
+              color:context.barData.contentData[i].color ,
+            }},
+          };
+
+          list.push(dataItem);
+        }
+        return list;
+      },
+      setLegend:function () {
+        let list = [];
+        for (let i = 0; i < context.barData.contentData.length; i++) {
+          list.push(context.barData.contentData[i].name);
+        }
+        return list;
+      },
+      updataData:function () {
+        this.bar.xAxis[0].data = context.barData.xData;
+        this.bar.series = context.setSeriesData();
+        this.bar.legend.data = context.setLegend();
+      }
+    },
+    watch: {
+      'barData': function (val) {
+        this.updataData();
+      },
     },
     data: () => ({
       bar: {
@@ -21,7 +64,9 @@
           }
         },
         legend: {
-          data: ['股份', '全资子公司', '控股子公司', '存续']
+          data: [],
+          x: 'right',
+          show: true
         },
         grid: {
           x: '7%',//距离左边
@@ -43,7 +88,7 @@
             },
 
             type: 'category',
-            data: ['水', '电', '煤气', '油', '天然气'],
+            data: [],
           }
         ],
         yAxis: [
@@ -60,29 +105,7 @@
             type: 'value'
           }
         ],
-        series: [
-          {
-            name: '股份',
-            type: 'bar',
-            data: [320, 332, 301, 334, 300]
-          },
-          {
-            name: '全资子公司',
-            type: 'bar',
-            data: [120, 132, 101, 134, 150]
-          },
-          {
-            name: '控股子公司',
-            type: 'bar',
-            data: [220, 182, 191, 234, 200]
-          },
-          {
-            name: '存续',
-            type: 'bar',
-            data: [150, 232, 201, 154, 150]
-          }
-
-        ]
+        series: []
       }
     })
   }

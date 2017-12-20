@@ -8,7 +8,12 @@
 
 <script type="text/ecmascript-6">
   import IEcharts from 'vue-echarts-v3';
+  var context = {};
   export default {
+    beforeCreate () {
+      context = this;
+    },
+    props: ['powerData'],
     components: {
       IEcharts
     },
@@ -17,7 +22,7 @@
       yAxisItem: {
         type: 'category',
         position: "left",
-        data: ['Top3', 'Top2', 'Top1'],
+        data: [],
         axisTick: {//坐标轴小标记
           show: false
         },
@@ -56,11 +61,15 @@
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
+//          formatter: function (params) {
+//            //params是data里数据传过来的
+//            return params.name + '\n'+' '+'\n' + context.meterData.centerData.content + '\n'+' '+'\n' + context.meterData.centerData.bottomText;
+//          }
         },
         legend: {
           x: 'right',
           show: true,
-          data: ['电费', '电量']
+          data: []
         },
         grid: {//直角坐标系内绘图网格
           x: '-2%',//距离左边
@@ -98,7 +107,8 @@
             yAxisIndex: 0,
             itemStyle: [],
             data: [100, 100, 100]
-          }, {
+          },
+          {
             name: '女应报道人数',
             type: 'bar',
             yAxisIndex: 0,
@@ -107,7 +117,7 @@
           },
           //这一行是红色的数据
           {
-            name: '电费',
+            name: '',
             type: 'bar',
             yAxisIndex: 1,
             label: {
@@ -117,11 +127,11 @@
               }
             },
             itemStyle: [],
-            data: [33, 66, 80],
+            data: [],
           },
           //这一行是绿色的数据
           {
-            name: '电量',
+            name: '',
             type: 'bar',
             yAxisIndex: 1,
             zlevel: 2,
@@ -132,11 +142,19 @@
               }
             },
             itemStyle: [],
-            data: [46, 83, 80],
+            data: [],
           }]
       }
     }),
     methods: {
+      //获取图例数据
+      nameList: function () {
+        let list = [];
+        for (let i = 0; i < this.powerData.contentData.length; i++) {
+          list.push(this.powerData.contentData[i].name);
+        }
+        return list;
+      },
       //表中内层数据样式
       getItemInnerStyle: function (corlor) {
         return {
@@ -154,19 +172,32 @@
             }
           }
         }
+      },
+      updateData:function () {
+        this.yAxisItem.data=this.powerData.yData;
+        this.option.legend.data=this.nameList();
+        this.option.series[2].name = this.powerData.contentData[0].name;
+        this.option.series[3].name = this.powerData.contentData[1].name;
+        this.option.series[2].data = this.powerData.contentData[0].value;
+        this.option.series[3].data = this.powerData.contentData[1].value;
+
+
+          //设置外层背景样式
+          this.option.series[0].itemStyle = this.itemOutterStyle;
+        this.option.series[1].itemStyle = this.itemOutterStyle;
+        //设置内层数据样式,因为两条数据的颜色不一样,所以需要传入颜色
+        this.option.series[2].itemStyle = this.getItemInnerStyle(this.powerData.contentData[0].color);
+        this.option.series[3].itemStyle = this.getItemInnerStyle(this.powerData.contentData[1].color);
+        //设置每条数据的矩形的宽度
+        this.option.series.barWidth = this.barWidth;
+        //设置两条Y轴
+        this.option.yAxis = [this.yAxisItem,this.yAxisItem];
       }
     },
-    created: function () {
-      //设置外层背景样式
-      this.option.series[0].itemStyle = this.itemOutterStyle;
-      this.option.series[1].itemStyle = this.itemOutterStyle;
-      //设置内层数据样式,因为两条数据的颜色不一样,所以需要传入颜色
-      this.option.series[2].itemStyle = this.getItemInnerStyle('#4DB9E7');
-      this.option.series[3].itemStyle = this.getItemInnerStyle('#B18FC1');
-      //设置每条数据的矩形的宽度
-      this.option.series.barWidth = this.barWidth;
-      //设置两条Y轴
-      this.option.yAxis = [this.yAxisItem,this.yAxisItem];
+    watch: {
+      'powerData': function (val) {
+        this.updateData();
+      },
     }
   }
 </script>

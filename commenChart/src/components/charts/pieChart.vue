@@ -9,6 +9,7 @@
 <script type="text/ecmascript-6">
   import IEcharts from 'vue-echarts-v3';
   export default {
+    props: ['pieData'],
     components: {
       IEcharts
     },
@@ -25,7 +26,7 @@
           //legend 图例，每个图表最多仅有一个图例
           orient: 'vertical',//垂直显示
           x: 'right',//放置在饼状图的图例
-          data: ['直达', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']//有哪些选项
+          data: []//有哪些选项
         },
         series: [
           //series（通用）驱动图表生成的数据内容数组，数组中每一项为一个系列的选项及数据，其中个别选项仅在部分图表类型中有效
@@ -63,20 +64,42 @@
                 show: false
               }
             },
-            data: [
-              {value: 335, name: '直达', itemStyle: {normal: {color: '#4cb1a7'}}},
-              {value: 310, name: '邮件营销', itemStyle: {normal: {color: '#ec7777'}}},
-              {value: 234, name: '联盟广告', itemStyle: {normal: {color: '#e5c649'}}},
-              {value: 135, name: '视频广告', itemStyle: {normal: {color: '#a6c733'}}},
-              {value: 1048, name: '百度', itemStyle: {normal: {color: '#57bcda'}}},
-              {value: 251, name: '谷歌', itemStyle: {normal: {color: '#489e95'}}},
-              {value: 147, name: '必应', itemStyle: {normal: {color: '#ecd77f'}}},
-              {value: 102, name: '其他', itemStyle: {normal: {color: '#94b033'}}}
-            ]
+            data: []
           }
         ]
       }
-    })
+    }),
+    methods: {
+      //获取图例数据
+      nameList: function () {
+        let list = [];
+        for (let i = 0; i < this.pieData.length; i++) {
+          list.push(this.pieData[i].name);
+        }
+        return list;
+      },
+      //获取内容区域数据
+      getData: function () {
+        let list = [];
+        for (let i = 0; i < this.pieData.length; i++) {
+          var dataItem = {value: 0, name: '', itemStyle: {normal: {color: ''}}};
+          dataItem.value = this.pieData[i].value;
+          dataItem.name = this.pieData[i].name;
+          dataItem.itemStyle.normal.color = this.pieData[i].color;
+          list.push(dataItem);
+        }
+        return list;
+      },
+      updateData: function () {
+        this.pie.legend.data = this.nameList();
+        this.pie.series[0].data = this.getData();
+      }
+    },
+    watch: {
+      'pieData': function (val) {
+        this.updateData();
+      },
+    }
   }
 </script>
 

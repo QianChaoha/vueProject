@@ -7,37 +7,46 @@
 
 <script type="text/ecmascript-6">
   import IEcharts from 'vue-echarts-v3';
-
+  var context = {};
   export default {
+    beforeCreate () {
+      context = this;
+    },
+    props: ['meterData'],
     components: {
       IEcharts
     },
     data: () => ({
       option: {
-        series: []
+        series: [],
+        ratioLeft:0,//左侧圆显示的比例
+        ratioRight:0,//右侧圆显示的比例
+        nameLeft:'',//标识左侧圆的name
       }
     }),
-    created: function () {
-      this.$nextTick(()=> {
-        this.option.series = this.createSeries();
-      });
-    },
     methods: {
+      formatterText: function (params) {
+        if (context.nameLeft===params.name){
+          return context.ratioLeft + '%' + '\n' + params.name;
+        }
+        return context.ratioRight + '%' + '\n' + params.name;
+      },
       createSeries: function () {
+        context.nameLeft=context.meterData.leftData.content;
         var mainData = [];
         mainData.push({
-          name: '天然气',
+          name: context.meterData.centerData.topText,
           value: 100,
           hismax: 100
         });
         mainData.push({
-          name: '同比',
-          value: 22,
+          name: context.meterData.leftData.content,
+          value: 60,
           hismax: 100
         });
         mainData.push({
-          name: '环比',
-          value: 33,
+          name: context.meterData.rightData.content,
+          value: 30,
           hismax: 100
         });
         var result = [];
@@ -53,23 +62,23 @@
         //两侧没有圆环,中间文字的样式
         var itemNoRingLabel = {
           normal: {
-            show:true,
-            position:'center',
+            show: true,
+            position: 'center',
             textStyle: {
-              fontSize: '16',
-              color:'#5B3351'
+              fontSize: '14',
+              color: '#5B3351'
             },
             formatter: function (params) {
               //params是data里数据传过来的
-              return params.name+ '\n' + params.value+'\n'+'本月';
+              return params.name + '\n'+' '+'\n' + context.meterData.centerData.content + '\n'+' '+'\n' + context.meterData.centerData.bottomText;
             }
           },
-          emphasis:{
-            show:true,
-            position:'center',
+          emphasis: {
+            show: true,
+            position: 'center',
             textStyle: {
-              fontSize: '16',
-              color:'#5B3351'
+              fontSize: '14',
+              color: '#5B3351'
             }
           }
         };
@@ -99,8 +108,9 @@
           //centerData:内层的圆
           //ringColor:圆环的颜色
           var center, radius, data, color, centerData, ringColor;
+          radius = ['40%', '50%'];
           if (i === 0) {
-            center = ['50%', '50%'];
+            center = ['50%', '32%'];
             radius = ['0%', '50%'];
             data = {
               name: ' ',
@@ -120,17 +130,18 @@
                   name: mainData[i].name,
                   value: mainData[i].value,
                   itemStyle: itemNoRingStyle
-                }]
+                }
+              ]
             }
           } else {
             if (i === 1) {
-              center = ['25%', '70%'];
-              radius = ['40%', '50%'];
+              context.ratioLeft = context.meterData.leftData.ratio;
+              center = ['27%', '58%'];
               color = '#4177BB';
               ringColor = '#68CDFE';
             } else {
-              center = ['75%', '70%'];
-              radius = ['40%', '50%'];
+              context.ratioRight = context.meterData.rightData.ratio;
+              center = ['73%', '58%'];
               color = '#A867A7';
               ringColor = '#AFD895';
             }
@@ -175,11 +186,10 @@
                   position: 'center',
                   formatter: function (params) {
                     //params是data里数据传过来的
-                    return params.value + '%' + '\n' + params.name;
+                    return context.formatterText(params);
                   },
                   textStyle: {
                     fontSize: '16',
-                    fontWeight: 'bold',
                     color: '#fff'
                   }
                 },
@@ -187,12 +197,11 @@
                   show: true,
                   position: 'center',
                   formatter: function (params) {
-                    console.log(params);
-                    return params.value + '%' + '\n' + params.name;
+                    //params是data里数据传过来的
+                    return context.formatterText(params);
                   },
                   textStyle: {
                     fontSize: '16',
-                    fontWeight: 'bold',
                     color: '#fff'
                   }
                 }
@@ -210,12 +219,18 @@
                 }]
             }
           }
+          //外层data是圆环,内层是显示在上面的数据
           result.push(data);
           result.push(centerData);
         }
         return result;
       }
-    }
+    },
+    watch: {
+      'meterData': function (val) {
+        this.option.series = this.createSeries();
+      },
+    },
   }
 </script>
 
