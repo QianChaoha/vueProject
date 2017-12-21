@@ -34,7 +34,7 @@
             name: ' ',
             type: 'pie',
             center: ['35%', '50%'],//圆心坐标
-            radius: ['60%', '80%'],
+            radius: ['50%', '80%'],
             selectedMode: 'single',
             avoidLabelOverlap: false,
             //标签，饼图默认显示在外部，离饼图距离由labelLine.length决定，

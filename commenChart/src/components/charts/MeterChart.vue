@@ -1,6 +1,6 @@
 <template>
   <div class="c-charts">
-    <IEcharts :option="option" ref="meterChart"></IEcharts>
+    <IEcharts :option="option"></IEcharts>
   </div>
 
 </template>
@@ -18,21 +18,41 @@
     },
     data: () => ({
       option: {
+        title: [
+          {
+            text: '',
+            left: '23%',
+            top: 'bottom',
+            textStyle: {}
+          },
+          {
+            text: '',
+            left: '69%',
+            top: 'bottom',
+            textStyle: {}
+          },
+
+        ],
         series: [],
-        ratioLeft:0,//左侧圆显示的比例
-        ratioRight:0,//右侧圆显示的比例
-        nameLeft:'',//标识左侧圆的name
+      },
+      ratioLeft: 0,//左侧圆显示的比例
+      ratioRight: 0,//右侧圆显示的比例
+      nameLeft: '',//标识左侧圆的name
+      textStyle: {
+        fontWeight: 'normal',
+        fontSize: 16,
+        color: "#575757"
       }
     }),
     methods: {
       formatterText: function (params) {
-        if (context.nameLeft===params.name){
+        if (context.nameLeft === params.name) {
           return context.ratioLeft + '%' + '\n' + params.name;
         }
         return context.ratioRight + '%' + '\n' + params.name;
       },
       createSeries: function () {
-        context.nameLeft=context.meterData.leftData.content;
+        context.nameLeft = context.meterData.leftData.content;
         var mainData = [];
         mainData.push({
           name: context.meterData.centerData.topText,
@@ -41,12 +61,12 @@
         });
         mainData.push({
           name: context.meterData.leftData.content,
-          value: 60,
+          value: context.meterData.leftData.ratio,
           hismax: 100
         });
         mainData.push({
           name: context.meterData.rightData.content,
-          value: 30,
+          value: context.meterData.rightData.ratio,
           hismax: 100
         });
         var result = [];
@@ -56,7 +76,7 @@
             show: false
           },
           emphasis: {
-            show: false,
+            show: false
           }
         };
         //两侧没有圆环,中间文字的样式
@@ -70,7 +90,7 @@
             },
             formatter: function (params) {
               //params是data里数据传过来的
-              return params.name + '\n'+' '+'\n' + context.meterData.centerData.content + '\n'+' '+'\n' + context.meterData.centerData.bottomText;
+              return params.name + '\n' + ' ' + '\n' + context.meterData.centerData.content + '\n' + ' ' + '\n' + context.meterData.centerData.bottomText;
             }
           },
           emphasis: {
@@ -224,11 +244,18 @@
           result.push(centerData);
         }
         return result;
+      },
+      setTitle: function () {
+        context.option.title[0].text = context.meterData.leftData.bottomText;
+        context.option.title[1].text = context.meterData.rightData.bottomText;
+        context.option.title[0].textStyle = context.textStyle;
+        context.option.title[1].textStyle = context.textStyle;
       }
     },
     watch: {
       'meterData': function (val) {
         this.option.series = this.createSeries();
+        this.setTitle();
       },
     },
   }

@@ -39,8 +39,17 @@
           rotate: 0,
           margin: 2,//坐标轴文本标签与坐标轴的间距，默认为8，单位px
           border:[2,3,4,6],
+          fontWeight:'bold',
           textStyle: {
-            color: '#ff0000'
+            color: function (value, index) {
+              if (0===index){
+                return'#287E76';
+              }else if (1===index){
+                return'#825C8D';
+              }else {
+                return'#5A6F08';
+              }
+            }
           },
           formatter:function(params){
             return params;
@@ -61,10 +70,16 @@
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
-//          formatter: function (params) {
-//            //params是data里数据传过来的
-//            return params.name + '\n'+' '+'\n' + context.meterData.centerData.content + '\n'+' '+'\n' + context.meterData.centerData.bottomText;
-//          }
+          formatter: function(params) {
+            var res = params[0].name;
+            for (var i = 0, l = params.length; i < l; i++) {
+              //背景柱形图的信息不显示
+              if (params[i].seriesName!=='背景'){
+                res += '<br/>' + params[i].seriesName + ' : ' + params[i].value;
+              }
+            }
+            return res;
+          }
         },
         legend: {
           x: 'right',
@@ -102,18 +117,18 @@
           //yAxisIndex：当有双Y轴时，它可以设置链接到的Y轴是具体哪一个。当只有一个Y轴时，该参数默认为0，
           //且链接的就是一个Y轴；有双轴时，从0 开始，依次累加1
           {
-            name: '男应报道人数',
+            name: '背景',
             type: 'bar',
             yAxisIndex: 0,
             itemStyle: [],
-            data: [100, 100, 100]
+            data: []
           },
           {
-            name: '女应报道人数',
+            name: '背景',
             type: 'bar',
             yAxisIndex: 0,
             itemStyle: [],
-            data: [100, 100, 100]
+            data: []
           },
           //这一行是红色的数据
           {
@@ -173,6 +188,14 @@
           }
         }
       },
+      //将最大值装进数组(最大值影响每条柱状图的背景阴影)
+      getMaxList:function () {
+        let list = [];
+        for (let i = 0; i < this.powerData.yData.length; i++) {
+          list.push(this.powerData.maxValue);
+        }
+        return list;
+      },
       updateData:function () {
         this.yAxisItem.data=this.powerData.yData;
         this.option.legend.data=this.nameList();
@@ -180,10 +203,12 @@
         this.option.series[3].name = this.powerData.contentData[1].name;
         this.option.series[2].data = this.powerData.contentData[0].value;
         this.option.series[3].data = this.powerData.contentData[1].value;
+        //设置最大值
+        this.option.series[0].data = this.getMaxList();
+        this.option.series[1].data = this.getMaxList();
 
-
-          //设置外层背景样式
-          this.option.series[0].itemStyle = this.itemOutterStyle;
+        //设置外层背景样式
+        this.option.series[0].itemStyle = this.itemOutterStyle;
         this.option.series[1].itemStyle = this.itemOutterStyle;
         //设置内层数据样式,因为两条数据的颜色不一样,所以需要传入颜色
         this.option.series[2].itemStyle = this.getItemInnerStyle(this.powerData.contentData[0].color);
@@ -192,6 +217,8 @@
         this.option.series.barWidth = this.barWidth;
         //设置两条Y轴
         this.option.yAxis = [this.yAxisItem,this.yAxisItem];
+
+
       }
     },
     watch: {

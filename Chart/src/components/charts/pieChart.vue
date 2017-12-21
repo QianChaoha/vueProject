@@ -76,7 +76,8 @@
         {
           name: '访问来源',
           type: 'pie',
-          radius: ['60%', '90%'],
+
+          radius: ['60%', '100%'],
 
           data: [
             {value: 335, name: '直达', itemStyle: {normal: {color: '#4cb1a7'}}},

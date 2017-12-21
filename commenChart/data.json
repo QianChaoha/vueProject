@@ -88,15 +88,16 @@
     "yData": [
       "Top3", "Top2", "Top1"
     ],
+    "maxValue":9000,
     "contentData": [
       {
         "name": "电费",
-        "value": [33, 66, 80],
+        "value": [3300, 6600, 8000],
         "color": "#4DB9E7"
       },
       {
         "name": "电量",
-        "value":[46, 83, 80],
+        "value":[4600, 8300, 8000],
         "color": "#B18FC1"
       }
     ]
