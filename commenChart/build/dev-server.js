@@ -43,34 +43,37 @@ var nh = appData.nh;
 var meter = appData.meter;
 var bar = appData.bar;
 var power = appData.power;
+var region = appData.region;
 var apiRoutes = express.Router();
 app.use('/api', apiRoutes);
 app.get('/api/nh', (req, res) => {
   res.json({
-    // 这里是你的json内容
     errno: 0,
     data: nh
   })
 });
 app.get('/api/meter', (req, res) => {
   res.json({
-    // 这里是你的json内容
     errno: 0,
     data: meter
   })
 });
 app.get('/api/bar', (req, res) => {
   res.json({
-    // 这里是你的json内容
     errno: 0,
     data: bar
   })
 });
 app.get('/api/power', (req, res) => {
   res.json({
-    // 这里是你的json内容
     errno: 0,
     data: power
+  })
+});
+app.get('/api/region', (req, res) => {
+  res.json({
+    errno: 0,
+    data: region
   })
 });
 

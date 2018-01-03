@@ -24,7 +24,7 @@
       <el-col :span="8">
         <el-card class="chart-bottom-left">
           <!--上海电信区局地图-->
-          <RegionMap></RegionMap>
+          <RegionMap :regionData="regionData"></RegionMap>
         </el-card>
       </el-col>
       <el-col :span="16">
@@ -52,6 +52,7 @@
         meterData:[],
         barData:[],
         powerData:[],
+        regionData:{},
       }
     },
     components: {
@@ -80,6 +81,12 @@
         response = response.body;
         if (response.errno === 0) {
           this.powerData = response.data;
+        }
+      });
+      this.$http.get('/api/region').then((response)=> {
+        response = response.body;
+        if (response.errno === 0) {
+          this.regionData = response.data;
         }
       });
     },

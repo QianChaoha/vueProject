@@ -6,6 +6,7 @@ import router from './router';
 import ElementUI from 'element-ui';
 //引入element-ui的默认CSS样式
 import 'element-ui/lib/theme-default/index.css';
+import './assets/jquery-3.2.1';
 
 
 Vue.use(ElementUI);

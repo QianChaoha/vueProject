@@ -1,4 +1,3 @@
-<!--饼状图-->
 <template>
   <div class="c-charts">
     <IEcharts :option="option"></IEcharts>
@@ -40,6 +39,9 @@
           margin: 2,//坐标轴文本标签与坐标轴的间距，默认为8，单位px
           border:[2,3,4,6],
           fontWeight:'bold',
+          backgroundColor:'#E9F1CD',
+          borderRadius:[15,0,0,15],
+          padding: [8, 6, 8, 10],//[上, 右, 下, 左]
           textStyle: {
             color: function (value, index) {
               if (0===index){

@@ -3,7 +3,6 @@
     <IEcharts :option="bar"></IEcharts>
   </div>
 
-
 </template>
 
 <script type="text/ecmascript-6">
@@ -117,6 +116,5 @@
     height: 250px;
     width: 100%;
   }
-
 
 </style>
