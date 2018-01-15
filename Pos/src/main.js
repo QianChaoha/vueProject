@@ -20,7 +20,4 @@ new Vue({
   router,
   template: '<App/>',
   components: { App },
-  beforeCreate:function(){
-    console.log('beforeCreated.....');
-  }
 })
