@@ -173,6 +173,7 @@
         //根据isHave的值判断订单列表中是否已经有此商品
         if(isHave){
           //存在就进行数量添加
+          //filter接收一个方法,此方法返回一个boolean值,boolean值为true的所有数据组成array,返回
           let arr = this.tableData.filter(o =>o.goodsId == goods.goodsId);
           arr[0].count++;
           //console.log(arr);
