@@ -61,7 +61,7 @@
         <div class="goods-type">
 
           <el-tabs v-model="goodType" @tab-click="handleTypeGood">
-            <el-tab-pane label="汉堡">
+            <el-tab-pane label="汉堡" name="first">
               <ul class='cookList'>
 
                 <li class="cook-list-li" v-for="goods in type0Goods" @click="addOrderList(goods)">
@@ -143,33 +143,14 @@
         goodType: 'first',
         activeName: 'first',
 
-        tableData: [
-          {
-
-            goodsName: '可口可乐',
-            price: 8,
-            count: 1
-          }, {
-
-            goodsName: '香辣鸡腿堡',
-            price: 15,
-            count: 1
-          }, {
-
-            goodsName: '爱心薯条',
-            price: 8,
-            count: 1
-          }, {
-
-            goodsName: '甜筒',
-            price: 8,
-            count: 1
-          }],
+        tableData: [],
         oftenGoods: [],
         type0Goods: [],
         type1Goods: [],
         type2Goods: [],
         type3Goods: [],
+        totalMoney: 0, //订单总价格
+        totalCount: 0  //订单商品总数量
       };
     },
     methods: {
@@ -177,6 +158,36 @@
         console.log(tab, event);
       },
       handleTypeGood(tab, event){
+      },
+      addOrderList(goods){
+        this.totalCount=0; //汇总数量清0
+        this.totalMoney=0;
+        let isHave=false;
+        //判断是否这个商品已经存在于订单列表
+        for (let i=0; i<this.tableData.length;i++){
+          console.log(this.tableData[i].goodsId);
+          if(this.tableData[i].goodsId==goods.goodsId){
+            isHave=true; //存在
+          }
+        }
+        //根据isHave的值判断订单列表中是否已经有此商品
+        if(isHave){
+          //存在就进行数量添加
+          let arr = this.tableData.filter(o =>o.goodsId == goods.goodsId);
+          arr[0].count++;
+          //console.log(arr);
+        }else{
+          //不存在就推入数组
+          let newGoods={goodsId:goods.goodsId,goodsName:goods.goodsName,price:goods.price,count:1};
+          this.tableData.push(newGoods);
+        }
+
+        //进行数量和价格的汇总计算
+        this.tableData.forEach((element) => {
+          this.totalCount+=element.count;
+          this.totalMoney=this.totalMoney+(element.price*element.count);
+        });
+
       }
     },
     mounted: function () {
@@ -184,22 +195,22 @@
       document.getElementById('order').style.height = totalHeight + 'px';
     },
     created: function () {
-      axios.get('http://jspang.com/DemoApi/oftenGoods.php')
+      axios.get('/api/oftenGoods')
         .then(response=> {
-          this.oftenGoods = response.data;
+          this.oftenGoods = response.data.data;
         })
         .catch(error=> {
           alert('网络错误，不能访问');
         })
       //读取分类商品列表
-      axios.get('http://jspang.com/DemoApi/typeGoods.php')
+      axios.get('/api/typeGoods')
         .then(response=> {
           console.log(response);
           //this.oftenGoods=response.data;
-          this.type0Goods = response.data[0];
-          this.type1Goods = response.data[1];
-          this.type2Goods = response.data[2];
-          this.type3Goods = response.data[3];
+          this.type0Goods = response.data.data[0];
+          this.type1Goods = response.data.data[1];
+          this.type2Goods = response.data.data[2];
+          this.type3Goods = response.data.data[3];
 
         })
         .catch(error=> {

@@ -34,61 +34,25 @@ var compiler = webpack(webpackConfig)
 
 
 
-
-
 // 引用的json地址
 var appData = require('../data.json')
 // json某一个key
-var nh = appData.nh;
-var meter = appData.meter;
-var bar = appData.bar;
-var power = appData.power;
-var region = appData.region;
+var oftenGoods = appData.oftenGoods;
+var typeGoods = appData.typeGoods;
 var apiRoutes = express.Router();
 app.use('/api', apiRoutes);
-app.get('/api/nh', (req, res) => {
+app.get('/api/oftenGoods', (req, res) => {
   res.json({
     errno: 0,
-    data: nh
+    data: oftenGoods
   })
 });
-app.get('/api/meter', (req, res) => {
+app.get('/api/typeGoods', (req, res) => {
   res.json({
     errno: 0,
-    data: meter
+    data: typeGoods
   })
 });
-app.get('/api/bar', (req, res) => {
-  res.json({
-    errno: 0,
-    data: bar
-  })
-});
-app.get('/api/power', (req, res) => {
-  res.json({
-    errno: 0,
-    data: power
-  })
-});
-app.get('/api/region', (req, res) => {
-  res.json({
-    errno: 0,
-    data: region
-  })
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
